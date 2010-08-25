@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>CFBundleDevelopmentRegion</key>
+		<string>English</string>
+		<key>CFBundleExecutable</key>
+		<string>Venus</string>
+		<key>CFBundleIdentifier</key>
+		<string>org.aventine.venus</string>
+		<key>CFBundleInfoDictionaryVersion</key>
+		<string>6.0</string>
+		<key>CFBundleName</key>
+		<string>Venus</string>
+		<key>CFBundlePackageType</key>
+		<string>BNDL</string>
+		<key>CFBundleShortVersionString</key>
+		<string>0.1</string>
+		<key>CFBundleSignature</key>
+		<string>????</string>
+		<key>CFBundleVersion</key>
+		<string>0.1</string>
+		
+		<key>LSBackgroundOnly</key>
+		<string>1</string>
+		
+		<key>NSServices</key>
+		<array>
+			<dict>
+				<key>NSPortName</key>
+				<string>Venus</string>
+				<key>NSMessage</key>
+				<string>toggle</string>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>default</key>
+					<string>Toggle Swedish</string>
+				</dict>
+				<key>NSUserData</key>
+				<string>Swedish - Pro|U.S.</string>
+			</dict>
+			<dict>
+				<key>NSPortName</key>
+				<string>Venus</string>
+				<key>NSMessage</key>
+				<string>toggle</string>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>default</key>
+					<string>Toggle Japanese</string>
+				</dict>
+				<key>NSUserData</key>
+				<string>Hiragana|U.S.</string>
+			</dict>
+		</array>
+	</dict>
+</plist>
