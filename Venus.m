@@ -7,75 +7,63 @@
 
 #import "Venus.h"
 
-#import <Carbon/Carbon.h>
+#import <AppKit/AppKit.h>
+
+#import <InputManager/InputManager.h>
 
 @implementation Venus
 
-- (bool) togglePrimaryInputMethod: (NSString *) primary secondaryInputMethod: (NSString *) secondary
+- (NSError *) toggleInputMethods: (NSArray *) inputMethods
 {
-  TISInputSourceRef current = TISCopyCurrentKeyboardInputSource();
+  CSInputSource * current = [CSInputSource currentKeyboard];
   
-  NSString * currentName = (NSString *)TISGetInputSourceProperty(current, kTISPropertyLocalizedName);
+  NSString * currentName = [current localizedName];
   
-  CFRelease(current);
+  NSArray * inputArray = [CSInputSource all];
   
-  NSArray * inputArray = (NSArray *) TISCreateInputSourceList(NULL, false);
-  
-  NSMutableDictionary * availableLanguages = [NSMutableDictionary dictionaryWithCapacity: [inputArray count]];
+  NSMutableDictionary * availableInputMethods = [NSMutableDictionary dictionaryWithCapacity: [inputArray count]];
   
   for (NSUInteger i = 0; i < [inputArray count]; i++) {
-    [availableLanguages setObject: [inputArray objectAtIndex: i] forKey: TISGetInputSourceProperty((TISInputSourceRef)[inputArray objectAtIndex: i], kTISPropertyLocalizedName)];
-  }
-  
-  [inputArray release];
-  
-  TISInputSourceRef chosen;
-  NSString * chosenInput;
-  
-  TISInputSourceRef languageRef1 = (TISInputSourceRef)[availableLanguages objectForKey: primary];
-  TISInputSourceRef languageRef2 = (TISInputSourceRef)[availableLanguages objectForKey: secondary];
-  
-  if (languageRef1 != nil && languageRef2 != nil) {
-    chosenInput = [primary isEqualTo: currentName] ? secondary : primary;
-    chosen = (TISInputSourceRef)[availableLanguages objectForKey: chosenInput];
-  } else {
-    chosenInput = (languageRef1 == nil) ? primary : secondary;
-    chosen = nil;
-  }
-  
-  if (chosen) {
-    OSStatus error = TISSelectInputSource(chosen);
+    CSInputSource * inputMethod = [inputArray objectAtIndex: i];
+    NSString * inputMethodName = [inputMethod localizedName];
     
-    if (!error) {
-      return true;
+    if (inputMethodName) {
+      [availableInputMethods setObject: inputMethod forKey: inputMethodName];
     }
   }
   
-  return false;
+  for (NSUInteger i = 0; i < [inputMethods count]; i++) {
+    NSString * inputMethod = [inputMethods objectAtIndex: i];
+    
+    if (![inputMethod isEqual: currentName]) {
+      return [[availableInputMethods objectForKey: inputMethod] select];
+    }
+  }
+  
+  return [[availableInputMethods objectForKey: [inputMethods objectAtIndex: 0]] select];
 }
-
-
 
 - (void) toggle: (NSPasteboard *) pboard userData: (NSString *) userData error: (NSString **) error
 {
-  NSArray * inputMethods = [userData componentsSeparatedByString: @"|"];
+  NSError * e = [self toggleInputMethods: [userData componentsSeparatedByString: @"|"]];
   
-  if (![self togglePrimaryInputMethod: [inputMethods objectAtIndex: 0] secondaryInputMethod: [inputMethods objectAtIndex: 1]]) {
-    *error = NSLocalizedString(@"Error: could not switch input language.", userData);
+  if (e) {
+    *error = [e description];
   }
 }
+
 @end
 
+#import <objc/objc-auto.h>
+
 int main (int argc, const char * argv[]) {
-  NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+  objc_startCollectorThread();
   
   Venus * serviceProvider = [[Venus alloc] init];
     
   NSRegisterServicesProvider(serviceProvider, @"Venus");
   
 	[[NSRunLoop currentRunLoop] run];
-  
-  [pool drain];
   
   return 0;
 }

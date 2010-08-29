@@ -13,7 +13,7 @@
 }
 
 /* If you want to use it in a mildly saner way */
-- (bool) togglePrimaryInputMethod: (NSString *) primary secondaryInputMethod: (NSString *) secondary;
+- (NSError *) toggleInputMethods: (NSArray *) inputMethods;
 
 /* For the service */
 - (void) toggle: (NSPasteboard *) pboard userData: (NSString *) userData error: (NSString **) error;

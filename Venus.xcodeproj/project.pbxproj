@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		8DD76F9A0486AA7600D96B5E /* Venus.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* Venus.m */; settings = {ATTRIBUTES = (); }; };
 		8DD76F9C0486AA7600D96B5E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FB779EFE84155DC02AAC07 /* Foundation.framework */; };
-		B4068648122571550042D4D2 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4068647122571550042D4D2 /* Carbon.framework */; };
 		B40686D9122574D20042D4D2 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40686D8122574D20042D4D2 /* AppKit.framework */; };
+		B4C3888E12296BB500DFDD09 /* InputManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4C3888D12296BB500DFDD09 /* InputManager.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -30,9 +30,9 @@
 		08FB779EFE84155DC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		8DD76FA10486AA7600D96B5E /* Venus */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Venus; sourceTree = BUILT_PRODUCTS_DIR; };
 		B40686441225710B0042D4D2 /* Venus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Venus.h; sourceTree = "<group>"; };
-		B4068647122571550042D4D2 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		B406864C122573000042D4D2 /* info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = info.plist; sourceTree = "<group>"; };
 		B40686D8122574D20042D4D2 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		B4C3888D12296BB500DFDD09 /* InputManager.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = InputManager.framework; path = ../InputManager/build/Debug/InputManager.framework; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,8 +41,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DD76F9C0486AA7600D96B5E /* Foundation.framework in Frameworks */,
-				B4068648122571550042D4D2 /* Carbon.framework in Frameworks */,
 				B40686D9122574D20042D4D2 /* AppKit.framework in Frameworks */,
+				B4C3888E12296BB500DFDD09 /* InputManager.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,8 +72,8 @@
 		08FB779DFE84155DC02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				B4C3888D12296BB500DFDD09 /* InputManager.framework */,
 				08FB779EFE84155DC02AAC07 /* Foundation.framework */,
-				B4068647122571550042D4D2 /* Carbon.framework */,
 				B40686D8122574D20042D4D2 /* AppKit.framework */,
 			);
 			name = "External Frameworks and Libraries";
@@ -142,6 +142,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../InputManager/build/Debug\"",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -158,6 +162,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../InputManager/build/Debug\"",
+				);
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Venus_Prefix.pch;
@@ -171,6 +179,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -186,6 +195,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;

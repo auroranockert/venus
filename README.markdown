@@ -6,19 +6,23 @@ or keyboard layout on OS X.
 
 Since it doesn't actually have a GUI. You will need to modify it's Info.plist
 to get it to work with your configuration, look at NSUserData, it's a string of
-two names, separated by a '|' (pipe).
+names, separated by '|' (pipe).
 
 
 Building the service bundle
 -------------------------------------------------------------------------------
 
-Compile the project, and place the result so it looks something like this
+First, build InputManager.framework, it's available [here](http://github.com/JensNockert/input-manager)
+
+Compile the project, you might need to modify the project so it can find the
+framework and place the result so it looks something like this
 
 ~/Library/Services/Venus.service
 	Contents/Info.plist
 	Contents/MacOS/Venus
+	Contents/Frameworks/InputManager.framework
 
-Or download a precompiled version [here](http://aventine.se/venus/Venus-0.1.tar.bz2).
+Or download a precompiled version [here](http://aventine.se/venus/Venus-0.2.tar.bz2).
 
 
 Installing
@@ -40,7 +44,7 @@ Want to help?
 -------------
 
 Please help make Venus helpful to others, for example by making a configuration
-system. Or providing more exotic switching setups.
+system. Or providing more exotic switching setups or features.
 
 
 License
