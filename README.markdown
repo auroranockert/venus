@@ -8,6 +8,9 @@ Since it doesn't actually have a GUI. You will need to modify it's Info.plist
 to get it to work with your configuration, look at NSUserData, it's a string of
 names, separated by '|' (pipe).
 
+I have it configured so I can switch between Swedish and US keyboard layouts on
+Caps Lock + A, and Japanese and US on Caps Lock + S. Works pretty sweet.
+
 
 Building the service bundle
 -------------------------------------------------------------------------------
