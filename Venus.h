@@ -12,9 +12,6 @@
   
 }
 
-/* If you want to use it in a mildly saner way */
-- (NSError *) toggleInputMethods: (NSArray *) inputMethods;
-
 /* For the service */
 - (void) toggle: (NSPasteboard *) pboard userData: (NSString *) userData error: (NSString **) error;
 

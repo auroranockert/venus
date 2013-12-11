@@ -13,57 +13,38 @@
 
 @implementation Venus
 
-- (NSError *) toggleInputMethods: (NSArray *) inputMethods
-{
-  CSInputSource * current = [CSInputSource currentKeyboard];
-  
-  NSString * currentName = [current localizedName];
-  
-  NSArray * inputArray = [CSInputSource all];
-  
-  NSMutableDictionary * availableInputMethods = [NSMutableDictionary dictionaryWithCapacity: [inputArray count]];
-  
-  for (NSUInteger i = 0; i < [inputArray count]; i++) {
-    CSInputSource * inputMethod = [inputArray objectAtIndex: i];
-    NSString * inputMethodName = [inputMethod localizedName];
-    
-    if (inputMethodName) {
-      [availableInputMethods setObject: inputMethod forKey: inputMethodName];
-    }
-  }
-  
-  for (NSUInteger i = 0; i < [inputMethods count]; i++) {
-    NSString * inputMethod = [inputMethods objectAtIndex: i];
-    
-    if (![inputMethod isEqual: currentName]) {
-      return [[availableInputMethods objectForKey: inputMethod] select];
-    }
-  }
-  
-  return [[availableInputMethods objectForKey: [inputMethods objectAtIndex: 0]] select];
-}
+static NSDictionary * availableInputSources;
 
-- (void) toggle: (NSPasteboard *) pboard userData: (NSString *) userData error: (NSString **) error
-{
-  NSError * e = [self toggleInputMethods: [userData componentsSeparatedByString: @"|"]];
-  
-  if (e) {
-    *error = [e description];
-  }
+- (void) toggle: (NSPasteboard *) pboard userData: (NSString *) userData error: (NSString **) error {
+	NSArray * inputSourceNames = [userData componentsSeparatedByString: @"|"];
+
+	NSInteger index = [inputSourceNames indexOfObject: [[CSInputSource currentKeyboard] localizedName]];
+
+	if (index == NSNotFound) {
+		index = 0;
+	} else {
+		index = (index + 1) % [inputSourceNames count];
+	}
+
+	if (![availableInputSources[inputSourceNames[index]] select]) {
+		*error = [NSString stringWithFormat: @"Could not find input source %@", inputSourceNames[index]];
+	}
 }
 
 @end
 
-#import <objc/objc-auto.h>
-
 int main (int argc, const char * argv[]) {
-  objc_startCollectorThread();
-  
-  Venus * serviceProvider = [[Venus alloc] init];
-    
-  NSRegisterServicesProvider(serviceProvider, @"Venus");
-  
-	[[NSRunLoop currentRunLoop] run];
-  
+	NSMutableDictionary * inputSourceDictionary = [NSMutableDictionary dictionary];
+
+  for (CSInputSource * inputSource in [CSInputSource all]) {
+		inputSourceDictionary[inputSource.localizedName] = inputSource;
+  }
+
+	availableInputSources = inputSourceDictionary;
+
+	NSRegisterServicesProvider([[Venus alloc] init], @"Venus");
+
+  [[NSRunLoop currentRunLoop] run];
+
   return 0;
 }
